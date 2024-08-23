@@ -8,9 +8,8 @@ espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
 navigationFragmentKtx = "2.7.7"
-qichatdemo_android = "1.0.0"
+qichatdemo_android = "1.0.0"#Chat UI SDK
 qichatsdk_android = "1.6.1"
-chatuisdk = "1.0.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,7 +22,6 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 qichatdemo_android = { module = "com.github.QiSDK:QiChatDemo_Android", version.ref = "qichatdemo_android" }
 qichatsdk_android = { module = "com.github.QiSDK:QiChatSDK_Android", version.ref = "qichatsdk_android" }
-chatuisdk = { group = "com.github.QiSDK", name = "qi-chatsdkui", version.ref = "chatuisdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
