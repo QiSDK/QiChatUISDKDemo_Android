@@ -1,7 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-
+    // Make sure that you have the Google services Gradle plugin 4.4.1+ dependency
+    id("com.google.gms.google-services") version "4.4.2" apply false
+    // Add the dependency for the Crashlytics Gradle plugin
+    id("com.google.firebase.crashlytics") version "3.0.2" apply false
     id 'kotlin-kapt'
 }
 
@@ -20,9 +23,23 @@ android {
     }
 
     buildTypes {
+        debug{
+            minifyEnabled false
+            crunchPngs false // or true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            crunchPngs false // or true
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
         }
     }
     compileOptions {
@@ -46,7 +63,7 @@ dependencies {
     implementation libs.androidx.appcompat
     implementation libs.material
     //implementation libs.chatuisdk
-    implementation libs.qichatdemo.android
+    api libs.qichatdemo.android
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
@@ -54,4 +71,12 @@ dependencies {
     // Kotlin
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
+
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 }

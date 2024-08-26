@@ -23,3 +23,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "QiChatUISDKDemo"
 include ':app'
+
+
+//includeBuild('../QiChatDemo_Android') {
+//    dependencySubstitution {
+//        substitute module('com.github.QiSDK:QiChatDemo_Android') using project(':TeneasyChatSDKUI_Android')
+//    }
+//}
+
+
