@@ -63,8 +63,7 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.material
-    //implementation libs.chatuisdk
-    api libs.qichatdemo.android
+    implementation 'com.github.QiSDK:QiChatDemo_Android:1.2.6'
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
