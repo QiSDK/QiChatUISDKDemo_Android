@@ -58,6 +58,12 @@ android {
     }
 }
 
+// Force Kotlin to compile against JDK 17 regardless of the JDK running Gradle
+// (Kotlin 1.8.0 does not support JVM target 21, which Android Studio's Gradle JDK may default to).
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
 
     implementation libs.androidx.core.ktx
