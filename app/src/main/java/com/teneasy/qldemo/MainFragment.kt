@@ -56,6 +56,43 @@ class MainFragment : Fragment(), GlobalMessageDelegate {
                 baseUrlImage = Constants.baseUrlImage,
             )
         )
+
+        // 模拟宿主"调自己接口拿到 service_keyword 配置后喂进 SDK"：
+        // 这里从内置示例 JSON 读取，真实接入时换成宿主自己的 HTTP 请求结果。
+        loadAutoCardKeywords()
+    }
+
+    /** 从内置示例 JSON（assets/mst_card_msg_match_list.json）读取 result[0].service_keyword 并设置到 UISDK。 */
+    private fun loadAutoCardKeywords() {
+        try {
+            val raw = requireContext().assets.open("mst_card_msg_match_list.json")
+                .bufferedReader().use { it.readText() }
+            val root = org.json.JSONObject(raw)
+            val result = root.optJSONArray("result") ?: return
+            if (result.length() == 0) return
+            val arr = result.getJSONObject(0).optJSONArray("service_keyword") ?: return
+            val list = (0 until arr.length()).map { jsonObjectToMap(arr.getJSONObject(it)) }
+            TeneasyChatUISDK.setAutoCardKeywords(list)
+        } catch (e: Exception) {
+            android.util.Log.w("MainFragment", "加载自动卡片关键词失败: ${e.message}")
+        }
+    }
+
+    private fun jsonObjectToMap(obj: org.json.JSONObject): Map<String, Any?> {
+        val map = HashMap<String, Any?>()
+        val keys = obj.keys()
+        while (keys.hasNext()) {
+            val k = keys.next()
+            map[k] = jsonToValue(obj.get(k))
+        }
+        return map
+    }
+
+    private fun jsonToValue(v: Any?): Any? = when (v) {
+        is org.json.JSONArray -> (0 until v.length()).map { jsonToValue(v.get(it)) }
+        is org.json.JSONObject -> jsonObjectToMap(v)
+        org.json.JSONObject.NULL -> null
+        else -> v
     }
 
     override fun onCreateView(
